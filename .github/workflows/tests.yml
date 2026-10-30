@@ -12,6 +12,21 @@ permissions:
 jobs:
   ci:
     runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_DATABASE: vendy
+          MYSQL_USER: vendy_user
+          MYSQL_PASSWORD: ci_password
+          MYSQL_ROOT_PASSWORD: ci_root_password
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
 
     steps:
       - name: Checkout code
@@ -33,6 +48,8 @@ jobs:
 
       - name: Setup Application
         run: composer setup
+        env:
+          DB_PASSWORD: ci_password
 
       - name: Run CI Checks
         run: composer ci:check
