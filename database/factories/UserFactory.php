@@ -35,7 +35,6 @@ class UserFactory extends Factory
 
     /**
      * Indicate that the model's email address should be unverified.
-     *
      */
     public function unverified(): static
     {
@@ -49,10 +48,10 @@ class UserFactory extends Factory
      */
     public function withTwoFactor(): static
     {
-        return $this->state(fn(array $attributes) => [
-            "two_factor_confirmed_at" => now(),
-            "two_factor_secret" => "secret",
-            "two_factor_recovery_codes" => "secret",
+        return $this->state(fn (array $attributes) => [
+            'two_factor_confirmed_at' => now(),
+            'two_factor_secret' => 'secret',
+            'two_factor_recovery_codes' => 'secret',
         ]);
     }
 }
